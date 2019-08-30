@@ -25,6 +25,7 @@ export default class AddNote extends React.Component{
         folderId:"",
       }
     }
+    
   }
 
   static defaultProps = {
@@ -35,8 +36,6 @@ export default class AddNote extends React.Component{
       params: {}
     }
   }
-  //variables
-  
   static contextType = ApiContext;
   
   updateNoteName (name){
@@ -51,12 +50,11 @@ export default class AddNote extends React.Component{
     this.setState( 
       {
         noteContent: {value:content, touched:true},
-        //wholeNote: {content:content}
+        
     })
   }
 
   // *** Need to add folder and note ids*/
-
 
   validateNoteName(){
     const noteName = this.state.noteName.value.trim();
