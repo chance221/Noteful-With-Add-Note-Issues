@@ -1,0 +1,20 @@
+.AddNote{
+  display: flex;
+  flex-direction:column;
+}
+
+.form-group{
+  padding: 15px;
+}
+
+.button-group{
+  padding: 15px;
+}
+
+.Addnote__title{
+  padding: 15px;
+}
+
+.lbl{
+  padding-right:15px;
+}
