@@ -17,6 +17,10 @@ export default class AddNote extends React.Component{
         value:"",
         touched:false
       },
+      folderID: {
+        value:"",
+        touched:false
+      },
       wholeNote:{
         name:"",
         content:"",
@@ -42,7 +46,7 @@ export default class AddNote extends React.Component{
     this.setState( 
       {
         noteName: {value:name, touched:true}, 
-        //wholeNote: {name:name}
+        
     })
   }
 
@@ -54,12 +58,26 @@ export default class AddNote extends React.Component{
     })
   }
 
+  updateFolderId(folderId){
+    this.setState(
+      {
+        folderID: {value:folderId, touched:true}
+    })
+  }
+
   // *** Need to add folder and note ids*/
 
   validateNoteName(){
     const noteName = this.state.noteName.value.trim();
     if(noteName.length === 0){
       return "Note name is required"
+    }
+  }
+
+  validateFolderId(){
+    const folderid = this.state.folderID.value.trim();
+    if(folderid.length===0){
+      return "Please Select a folder"
     }
   }
 
@@ -93,7 +111,6 @@ export default class AddNote extends React.Component{
     })
     .then((folderRes1)=>{
         
-        alert(`A new note has been added`)
         this.props.history.goBack()
     })
     .catch(e =>{
@@ -134,35 +151,33 @@ export default class AddNote extends React.Component{
     let addedID = this.addID();
     let newName = this.state.noteName.value;
     let newContent = this.state.noteContent.value;
-    let  {folderId}  = this.props.match.params;
-    console.log(`here are the match params ${this.props.match.params}`)
+    let folderId  = this.state.folderID.value;
+    
     this.setState({
       wholeNote: ({ name:newName, content:newContent, id:addedID, modified:modDate, folderId:folderId})
     })
     resolve();
     })
-
     promise1.then(() =>{
       alert('note created')
-      
       console.log(this.state.wholeNote)
-
       this.updateServerNotes(this.state.wholeNote)
       this.context.handleNoteSubmit(this.state.wholeNote)
-    })
-   
-    
+    }) 
   };
 
   render(){
 
+    const { folders=[] } = this.context
+    
     const noteNameError = this.validateNoteName();
 
     const noteContentError = this.validateNoteContent();
 
-    const { folderId } = this.props.match.params
+    const folderError = this.validateFolderId();
     
     return(
+      
       <div className = 'AddNote'>
         <div className= 'AddNote__container'>
         <h2 className = 'AddNote__title'>
@@ -171,7 +186,17 @@ export default class AddNote extends React.Component{
           <form className="addNote-form" onSubmit = {this.handleSubmit}>
             <div className="form-group">
               <div className="note_name">
-                {/* <label htmlFor="name" className="lbl">Note Name</label> */}
+                {this.state.folderID.touched && <ValidationError message={folderError}/>}
+                <select id='note-folder-select' name='note-folder-id' onChange = {e=>this.updateFolderId(e.target.value)}>
+                <option value={null}></option>
+                {folders.map(folder =>
+                  <option key={folder.id} value={folder.id}>
+                    {folder.name}
+                  </option>
+                )}
+                </select>
+              </div>
+              <div className="note_name">
                 <input 
                   type='text'
                   className='form_input'
@@ -181,8 +206,7 @@ export default class AddNote extends React.Component{
                   onChange = {e=>this.updateNoteName(e.target.value)}
                 /> {this.state.noteName.touched && <ValidationError message={noteNameError}/>}
               </div>
-              <div className="note_content">  
-                {/* <label htmlFor="content" className="lbl">Enter the content of your note here</label> */}
+              <div className="note_content">
                 <textarea 
                   rows="20" 
                   cols="40" 
@@ -196,7 +220,7 @@ export default class AddNote extends React.Component{
               <button
                 type="submit"
                 className="submit-btn"
-                disabled={this.validateNoteContent() || this.validateNoteContent()}
+                disabled={this.validateNoteName() || this.validateNoteContent() || this.validateFolderId()}
               >
                 Submit
               </button> {/*need to check this*/}
@@ -204,7 +228,6 @@ export default class AddNote extends React.Component{
               type="button" 
               className="cancel"
               onClick={() =>this.props.history.goBack()}>Cancel</button>
-
             </div>
 
           </form>
