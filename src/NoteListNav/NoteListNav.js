@@ -44,3 +44,6 @@ export default class NoteListNav extends React.Component {
     )
   }
 }
+NoteListNav.propTypes = {
+  path: PropTypes.string
+}

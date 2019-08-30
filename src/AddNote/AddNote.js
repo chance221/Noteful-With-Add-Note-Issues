@@ -86,7 +86,7 @@ export default class AddNote extends React.Component{
         })
     })
     .then((folderRes)=>{
-      console.log(folderRes)
+      
         if (!folderRes.ok)
           return folderRes.json().then(e=> Promise.reject(e))
         return folderRes.json()
@@ -100,39 +100,13 @@ export default class AddNote extends React.Component{
       alert('something went wrong')
         console.error({e});
     })
-  }
+  };
 
   getDateModified = () =>{
-    var today = new Date(``);
-    var year = today.getFullYear()
-    var month = today.getMonth()+1
-    var day = today.getDate();
-    var dateTime = new Date(`2019-08-29T00:00:00.000Z`)
+    var dateTime = new Date();
     return dateTime
-  }
-  // getDateWithFormatting = () =>{
-  //   let today = new Date();
-  //   let monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  //   let year = today.getFullYear();
-  //   let month = today.getMonth();
-  //   let day = today.getDate();
-  //   let getDayEnding = (day) =>{
-  //     if(day === 1 || day === 21 || day ===31){
-  //       return day+'st'
-  //     }
-  //     else if(day === 2 || day === 22 ){
-  //       return day+'nd'
-  //     }
-  //     else if (day === 3 || day === 23){
-  //       return day + 'rd'
-  //     }
-  //     else{
-  //       return day + 'th'
-  //     }
-  //   };
-  //   const formattedDate = `Modified ${getDayEnding(day)} ${monthArray[month]} ${year}`;
-  //   return formattedDate;
-  // }
+  };
+  
 
   addID = (newID) =>{
     newID = shotrid.generate()
@@ -161,7 +135,7 @@ export default class AddNote extends React.Component{
     let newName = this.state.noteName.value;
     let newContent = this.state.noteContent.value;
     let  {folderId}  = this.props.match.params;
-    
+    console.log(`here are the match params ${this.props.match.params}`)
     this.setState({
       wholeNote: ({ name:newName, content:newContent, id:addedID, modified:modDate, folderId:folderId})
     })

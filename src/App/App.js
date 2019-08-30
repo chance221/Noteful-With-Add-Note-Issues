@@ -8,6 +8,7 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 import ApiContext from '../ApiContext';
 import AddFolder from '../AddFolder/AddFolder';
 import AddNote from '../AddNote/AddNote'
+import ErrorBoundry from '../ErrorBoundaries/ErrorBoundries'
 import config from '../config';
 import './App.css';
 
@@ -36,7 +37,9 @@ class App extends Component {
                 this.setState({notes, folders});
             })
             .catch(error => {
-                console.error({error});
+                console.error({error})
+                alert(`could not connect with server`)
+                return error;
             });
     }
 
@@ -138,14 +141,19 @@ class App extends Component {
         return (
             <ApiContext.Provider value={value}>
                 <div className="App">
-                    <nav className="App__nav">{this.renderNavRoutes()}</nav>
+                    <ErrorBoundry>
+                        <nav className="App__nav">{this.renderNavRoutes()}</nav>
+                    </ErrorBoundry>
                     <header className="App__header">
                         <h1>
                             <Link to="/">Noteful</Link>{' '}
                             <FontAwesomeIcon icon="check-double" />
                         </h1>
                     </header>
-                    <main className="App__main">{this.renderMainRoutes()}</main>
+                    <ErrorBoundry>
+                        <main className="App__main">{this.renderMainRoutes()}</main>
+                    </ErrorBoundry>
+                    
                 </div>
             </ApiContext.Provider>
         );
