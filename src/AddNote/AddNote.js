@@ -2,6 +2,7 @@ import React from 'react';
 import config from '../config';
 import ApiContext from '../ApiContext';
 import ValidationError from '../ValidationError';
+import PropTypes from 'prop-types';
 import './AddNote.css'
 const shotrid = require('shortid')
 
@@ -38,7 +39,7 @@ export default class AddNote extends React.Component{
     },
     match:{
       params: {}
-    }
+    },
   }
   static contextType = ApiContext;
   
@@ -160,7 +161,7 @@ export default class AddNote extends React.Component{
     })
     promise1.then(() =>{
       alert('note created')
-      console.log(this.state.wholeNote)
+      
       this.updateServerNotes(this.state.wholeNote)
       this.context.handleNoteSubmit(this.state.wholeNote)
     }) 
@@ -235,4 +236,10 @@ export default class AddNote extends React.Component{
       </div>
     )
   }
+}
+
+AddNote.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  
 }

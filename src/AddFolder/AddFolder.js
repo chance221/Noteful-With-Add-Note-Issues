@@ -38,7 +38,7 @@ export default class AddFolder extends React.Component{
   }
 
   updateServerFolders = folder =>{
-      console.log(`this is what is being sent ${folder}`)
+      
       fetch(`${config.API_ENDPOINT}/folders`, {
           method:'post',
           headers:{
@@ -50,7 +50,6 @@ export default class AddFolder extends React.Component{
           })
       })
       .then((folderRes)=>{
-        console.log(folderRes)
           if (!folderRes.ok)
             return folderRes.json().then(e=> Promise.reject(e))
           return folderRes.json()
