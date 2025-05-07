@@ -10,7 +10,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^7.5.2",
     "react-scripts": "2.1.1",
     "shortid": "^2.2.14",
     "tinydate": "^1.2.0",
